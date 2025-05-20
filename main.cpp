@@ -11,20 +11,17 @@ int main() {
 
     load_mnist_csv("mnist_train.csv", images, labels);
 
-    // batch_size you want to process at once
     int batch_size = 32;
 
-    // Start index in your images vector
-    int start_idx = 0;  // or wherever you want to start
+    int start_idx = 0;  
 
-    // Prepare 4D vector: [batch_size][channels][height][width]
     vector<vector<vector<vector<double>>>> input_batch(batch_size, vector<vector<vector<double>>>(1, vector<vector<double>>(28, vector<double>(28, 0.0))));
 
-    // Copy images from your Batch into this 4D vector
+    // Copy images from Batch into this 4D vector
     for (int i = 0; i < batch_size; ++i) {
         const Image& img = images[start_idx + i];  // images loaded from CSV
 
-        for (int c = 0; c < 1; ++c) {            // channels = 1 for MNIST grayscale
+        for (int c = 0; c < 1; ++c) {            
             for (int r = 0; r < 28; ++r) {
                 for (int col = 0; col < 28; ++col) {
                     input_batch[i][c][r][col] = img[c][r][col];
