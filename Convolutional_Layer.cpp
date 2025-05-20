@@ -24,7 +24,7 @@ double Convolutional_Layer::activate(double val) {
     if (activation_function == "sigmoid") {
         return 1.0 / (1.0 + exp(-val)); // Sigmoid
     } else { // Default to ReLU
-        return (val > 0) ? val : 0; // ReLU
+        return (val > 0) ? val : 0.0; // ReLU
     }
 }
 
