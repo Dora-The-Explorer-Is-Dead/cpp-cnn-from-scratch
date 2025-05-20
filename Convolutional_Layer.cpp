@@ -128,7 +128,7 @@ vector<vector<vector<vector<double>>>> Convolutional_Layer::backward(const vecto
         for (int f = 0; f < filters_no; ++f) {
             for (int i = 0; i < output_rows; ++i) {
                 for (int j = 0; j < output_cols; ++j) {
-                    double dZ = dA[b][f][i][j]; 
+                    double dZ = dA[b][f][i][j]; // wtf was i on???
 
                     biases_gradients[f] += dZ;
 
