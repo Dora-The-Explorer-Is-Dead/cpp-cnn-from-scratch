@@ -1,5 +1,7 @@
 #include "..\headers\Flatten_Layer.hpp"
 
+Flatten_Layer::Flatten_Layer() {}
+
 vector<vector<double>> Flatten_Layer::forward(const vector<vector<vector<vector<double>>>>& inputs) {
     batch_size = inputs.size();
     channels = inputs[0].size();

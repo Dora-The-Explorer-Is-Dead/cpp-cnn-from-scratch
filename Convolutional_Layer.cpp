@@ -119,16 +119,15 @@ vector<vector<vector<vector<double>>>> Convolutional_Layer::backward(const vecto
     filters_gradients.assign(filters_no, vector<vector<vector<double>>>(channels, vector<vector<double>>(rows_no, vector<double>(cols_no, 0.0))));
     biases_gradients.assign(filters_no, 0.0);
     inputs_gradients.assign(batch_size, vector<vector<vector<double>>>(channels, vector<vector<double>>(input_rows, vector<double>(input_cols, 0.0))));
-    
-    // Temporary buffer for padded input gradients
-    vector<vector<vector<vector<double>>>> padded_inputs_gradients(batch_size,vector<vector<vector<double>>>(channels,vector<vector<double>>(input_rows + 2 * row_padding,vector<double>(input_cols + 2 * col_padding, 0.0))));
 
-    // Backprop through conv layer
+    vector<vector<vector<vector<double>>>> padded_inputs_gradients(batch_size, vector<vector<vector<double>>>(channels, vector<vector<double>>(input_rows + 2 * row_padding, vector<double>(input_cols + 2 * col_padding, 0.0))));
+
     for (int b = 0; b < batch_size; ++b) {
         for (int f = 0; f < filters_no; ++f) {
             for (int i = 0; i < output_rows; ++i) {
                 for (int j = 0; j < output_cols; ++j) {
-                    double dZ = dA[b][f][i][j]; // wtf was i on???
+                    double z = pre_activation_outputs[b][f][i][j];
+                    double dZ = dA[b][f][i][j] * activation_derivative(z);
 
                     biases_gradients[f] += dZ;
 
@@ -138,10 +137,7 @@ vector<vector<vector<vector<double>>>> Convolutional_Layer::backward(const vecto
                                 int img_row = i * stride + m;
                                 int img_col = j * stride + n;
 
-                                // Gradient w.r.t. filter weights
                                 filters_gradients[f][c][m][n] += dZ * padded_images[b][c][img_row][img_col];
-
-                                // Gradient w.r.t. inputs (on padded version)
                                 padded_inputs_gradients[b][c][img_row][img_col] += filters[f][c][m][n] * dZ;
                             }
                         }
@@ -151,21 +147,20 @@ vector<vector<vector<vector<double>>>> Convolutional_Layer::backward(const vecto
         }
     }
 
-    // Remove padding from padded input gradients to get final input gradients
     for (int b = 0; b < batch_size; ++b) {
         for (int c = 0; c < channels; ++c) {
             for (int i = 0; i < input_rows; ++i) {
                 for (int j = 0; j < input_cols; ++j) {
-                    inputs_gradients[b][c][i][j] = padded_inputs_gradients[b][c][i + row_padding/2][j + col_padding/2];
+                    inputs_gradients[b][c][i][j] = padded_inputs_gradients[b][c][i + row_padding / 2][j + col_padding / 2];
                 }
             }
         }
     }
 
-    // Update weights
     update_parameters();
     return inputs_gradients;
 }
+
 
 void Convolutional_Layer::set_learning_rate(double lr) {
     learning_rate = lr;
@@ -183,4 +178,14 @@ void Convolutional_Layer::update_parameters() {
         biases[f] -= learning_rate * biases_gradients[f];
     }
 }
+
+double Convolutional_Layer::activation_derivative(double val) {
+    if (activation_function == "sigmoid") {
+        double sig = 1.0 / (1.0 + exp(-val));
+        return sig * (1.0 - sig);
+    } else { // ReLU
+        return (val > 0) ? 1.0 : 0.0;
+    }
+}
+
 

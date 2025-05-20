@@ -10,12 +10,21 @@ Dense_Layer::Dense_Layer(int n, int i) : neurons(n), no_inputs(i) {
     biases = vector<vector<double>>(1, vector<double>(neurons, 0.0));
 
     // He initialization (good for ReLU)
-    double limit = sqrt(2.0 / no_inputs);
+    /* double limit = sqrt(2.0 / no_inputs);
+    for (int i = 0; i < no_inputs; i++) {
+        for (int j = 0; j < neurons; j++) {
+            weights[i][j] = limit * ((double)rand() / RAND_MAX * 2 - 1);  // [-limit, limit]
+        }
+    } */
+
+    // Xavier initialization
+    double limit = sqrt(6.0 / (no_inputs + neurons));
     for (int i = 0; i < no_inputs; i++) {
         for (int j = 0; j < neurons; j++) {
             weights[i][j] = limit * ((double)rand() / RAND_MAX * 2 - 1);  // [-limit, limit]
         }
     }
+
 }
 
 void Dense_Layer::set_learning_rate(double lr) {

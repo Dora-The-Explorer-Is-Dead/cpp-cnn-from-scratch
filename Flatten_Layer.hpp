@@ -11,6 +11,8 @@ private:
     int width;
 
 public:
+    Flatten_Layer(); 
+    
     vector<vector<double>> forward(const vector<vector<vector<vector<double>>>>& inputs);
 
     vector<vector<vector<vector<double>>>> backward(const vector<vector<double>>& d_out);

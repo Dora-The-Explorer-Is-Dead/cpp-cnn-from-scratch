@@ -40,4 +40,6 @@ public:
     vector<vector<vector<vector<double>>>> backward(const vector<vector<vector<vector<double>>>>& dA);
 
     void set_learning_rate(double lr);
+
+    double activation_derivative(double val);
 };
