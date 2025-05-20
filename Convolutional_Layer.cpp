@@ -1,7 +1,7 @@
 #include "..\headers\Convolutional_Layer.hpp"
 
 int Convolutional_Layer::calculate_padding(int I, int K, int S) {
-    int O = ceil(static_cast<float>(I) / S);  // Desired output size
+    int O = ceil(I / S);  // Desired output size
     int padding = max(0, (S * (O - 1) + K - I) / 2);
     return padding;
 }
