@@ -23,11 +23,7 @@ vector<vector<double>> Flatten_Layer::forward(const vector<vector<vector<vector<
 }
 
 vector<vector<vector<vector<double>>>> Flatten_Layer::backward(const vector<vector<double>>& d_out) {
-    vector<vector<vector<vector<double>>>> d_input(
-        batch_size,
-        vector<vector<vector<double>>>(channels,
-            vector<vector<double>>(height,
-                vector<double>(width))));
+    vector<vector<vector<vector<double>>>> d_input(batch_size, vector<vector<vector<double>>>(channels, vector<vector<double>>(height, vector<double>(width))));
 
     for (int i = 0; i < batch_size; i++) {
         int flat_index = 0;

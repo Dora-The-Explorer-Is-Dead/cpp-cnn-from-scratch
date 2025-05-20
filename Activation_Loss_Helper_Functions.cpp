@@ -1,6 +1,8 @@
 #include "..\headers\Activation_Loss_Helper_Functions.hpp"
 
 vector<vector<double>> remove_neg(const vector<vector<double>>& a) {
+    if (a.empty() || a[0].empty()) throw invalid_argument("Input matrix is empty.");
+
     vector<vector<double>> output(a.size(), vector<double>(a[0].size(), 0.0));
     for (int i = 0; i < a.size(); i++) {
         for (int j = 0; j < a[0].size(); j++) {
@@ -12,6 +14,8 @@ vector<vector<double>> remove_neg(const vector<vector<double>>& a) {
 }
 
 vector<vector<double>> convert_to_exp(const vector<vector<double>>& a) {
+    if (a.empty() || a[0].empty()) throw invalid_argument("Input matrix is empty.");
+
     vector<vector<double>> output(a.size(), vector<double>(a[0].size(), 0.0));
     for (int i = 0; i < a.size(); i++) {
         for (int j = 0; j < a[0].size(); j++) {
@@ -22,6 +26,8 @@ vector<vector<double>> convert_to_exp(const vector<vector<double>>& a) {
 }
 
 vector<vector<double>> convert_to_neg_log(const vector<vector<double>>& a) {
+    if (a.empty() || a[0].empty()) throw invalid_argument("Input matrix is empty.");
+
     vector<vector<double>> output(a.size(), vector<double>(a[0].size(), 0.0));
     for (int i = 0; i < a.size(); i++) {
         for (int j = 0; j < a[0].size(); j++) {
@@ -32,6 +38,8 @@ vector<vector<double>> convert_to_neg_log(const vector<vector<double>>& a) {
 }
 
 vector<vector<double>> clip(const vector<vector<double>>& a) {
+    if (a.empty() || a[0].empty()) throw invalid_argument("Input matrix is empty.");
+
     vector<vector<double>> output(a.size(), vector<double>(a[0].size(), 0.0));
     for (int i = 0; i < a.size(); i++) {
         for (int j = 0; j < a[0].size(); j++) {
