@@ -1,7 +1,7 @@
 #include "..\headers\Convolutional_Layer.hpp"
 
 int Convolutional_Layer::calculate_padding(int I, int K, int S) {
-    int O = ceil(I / S);  // Desired output size
+    int O = ceil(I / S);  
     int padding = max(0, (S * (O - 1) + K - I) / 2);
     return padding;
 }
@@ -23,7 +23,7 @@ vector<vector<double>> Convolutional_Layer::do_padding(int col_padding, int row_
 double Convolutional_Layer::activate(double val) {
     if (activation_function == "sigmoid") {
         return 1.0 / (1.0 + exp(-val)); // Sigmoid
-    } else { // Default to ReLU
+    } else { 
         return (val > 0) ? val : 0.0; // ReLU
     }
 }
@@ -56,7 +56,6 @@ Convolutional_Layer::Convolutional_Layer(int r, int c, int k, int f, int s, stri
         }
     }
 
-    // Bias for each filter
     biases.resize(filters_no, 0.0);
 }
 
